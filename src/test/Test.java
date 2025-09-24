@@ -11,6 +11,11 @@ public class Test {
     public void setValue(int value) {
         this.value = value;
         System.out.println("value set to " + value);
-        System.out.println("なぜ？？");
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        test.setValue(10);
+        System.out.println("Current value: " + test.getValue());
     }
 }
