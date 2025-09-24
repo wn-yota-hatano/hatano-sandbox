@@ -12,4 +12,10 @@ public class Test {
         this.value = value;
         System.out.println("value set to " + value);
     }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        test.setValue(10);
+        System.out.println("Current value: " + test.getValue());
+    }
 }
