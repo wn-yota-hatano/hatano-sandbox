@@ -11,5 +11,6 @@ public class Test {
     public void setValue(int value) {
         this.value = value;
         System.out.println("value set to " + value);
+        System.out.println("なぜ？？");
     }
 }
