@@ -1,0 +1,16 @@
+name: workflow.yml
+on:
+  pull_request_review:
+    branches:
+      - "develop"
+    types:
+      - submitted
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
