@@ -1,10 +1,13 @@
 name: workflow.yml
 on:
-  pull_request_review:
+  pull_request:
     branches:
       - "develop"
+  check_suite:
     types:
-      - submitted
+      - completed
+  workflow_dispatch:
+
 jobs:
   build:
     name: Build Project
