@@ -17,9 +17,5 @@ public class Test {
         Test test = new Test();
         test.setValue(10);
         System.out.println("Current value: " + test.getValue());
-
-        for (int i = 1; i <= 3; i++) {
-            System.out.println("i = " + i);
-        }
     }
 }
