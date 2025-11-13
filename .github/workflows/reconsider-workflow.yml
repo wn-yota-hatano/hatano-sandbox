@@ -48,6 +48,10 @@ jobs:
 
           APPROVALS=$(echo "$body" | jq '[.[] | select(.state == "APPROVED")] | length')
           
+          # 承認数を表示
+          echo "## 承認数" >> $GITHUB_STEP_SUMMARY
+          echo "このPRの合計承認数は **${APPROVALS}件** です。" >> $GITHUB_STEP_SUMMARY
+          
           # 承認数が2人以上かどうかを判定
           if [ "$APPROVALS" -eq 2 ]; then
           echo "has-sufficient-approvals=true" >> $GITHUB_OUTPUT
