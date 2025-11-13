@@ -86,6 +86,3 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           add-job-summary: on-failure
-
-      - name: Run Liberty Batch Build
-        run: ./gradlew liberty-batch:build -x test
