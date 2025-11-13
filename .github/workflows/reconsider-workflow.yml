@@ -29,9 +29,6 @@ jobs:
     steps:
       - name: Check Approval Count
         id: check-approval
-        # 承認時に実行
-        if: |
-          github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
         run: |
           set -e
           response=$(curl -s -w "%{http_code}" \
