@@ -29,9 +29,6 @@ jobs:
     steps:
       - name: Check Approval Count
         id: check-approval
-        # 承認時に実行
-        if: |
-          github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
         run: |
           set -e
           response=$(curl -s -w "%{http_code}" \
@@ -47,6 +44,10 @@ jobs:
           fi
 
           APPROVALS=$(echo "$body" | jq '[.[] | select(.state == "APPROVED")] | length')
+          
+          # 承認数を表示
+          echo "## 承認数" >> $GITHUB_STEP_SUMMARY
+          echo "このPRの合計承認数は **${APPROVALS}件** です。" >> $GITHUB_STEP_SUMMARY
           
           # 承認数が2人以上かどうかを判定
           if [ "$APPROVALS" -eq 2 ]; then
@@ -86,6 +87,3 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           add-job-summary: on-failure
-
-      - name: Run Liberty Batch Build
-        run: ./gradlew liberty-batch:build -x test
