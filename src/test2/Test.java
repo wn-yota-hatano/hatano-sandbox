@@ -20,7 +20,7 @@ public class Test {
 
         for (int i = 1; i <= 3; i++) {
             System.out.println("i = " + i);
-            // nyan
+            // woa
         }
     }
 }
