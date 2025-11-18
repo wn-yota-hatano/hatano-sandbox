@@ -26,6 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       should-run: ${{ steps.check-should-run.outputs.should-run }}
+    # 承認時に実行
+    if: |
+      github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
     steps:
       - name: Check Approval Count
         id: check-approval
