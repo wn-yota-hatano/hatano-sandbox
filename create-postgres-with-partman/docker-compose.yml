@@ -1,0 +1,10 @@
+services:
+  db:
+    build: .
+    container_name: postgres_with_partman
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test
+    ports:
+      - "54320:5432"
