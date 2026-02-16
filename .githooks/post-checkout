@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# $1: 切り替え前のHEADのハッシュ
+# $2: 切り替え後のHEADのハッシュ
+# $3: ブランチの切り替えなら1、ファイルのチェックアウトなら0
+PREV_HEAD=$1
+NEW_HEAD=$2
+IS_BRANCH_CHECKOUT=$3
+
+# ブランチの切り替えではない場合は終了
+if [ "$IS_BRANCH_CHECKOUT" -ne 1 ]; then
+    exit 0
+fi
+
+# 現在のブランチ名を取得
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# 特定のブランチ（main,stg,develop等）では実行しない
+if [[ "$CURRENT_BRANCH" =~ ^(main|stg|develop|master|dev)$ ]]; then
+    exit 0
+fi
+
+# ブランチ作成直後かどうかを判定
+# reflogを確認し、そのブランチでのイベントが1つ（branch: Created from...）だけなら新規作成とみなす
+LOG_COUNT=$(git reflog show "$CURRENT_BRANCH" | wc -l)
+
+if [ "$LOG_COUNT" -eq 1 ]; then
+    echo "Creating an initial empty commit..."
+
+    # 空コミットを作成
+    # --allow-empty : 差分がなくてもコミットを許可
+    # --only        : インデックス(stage)の内容を無視し、指定したファイル(なし)のみを対象とする
+    # --quiet       : 標準出力を抑制し、ブランチ切り替え時のノイズを減らす
+    # --no-verify   : pre-commit等のフックをスキップし、無限ループや検証エラーを回避
+    git commit --allow-empty -m "Initial empty commit for $CURRENT_BRANCH" --only --quiet --no-verify
+fi
