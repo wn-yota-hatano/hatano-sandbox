@@ -16,7 +16,7 @@ fi
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 # 特定のブランチ（main,stg,develop等）では実行しない
-if [[ "$CURRENT_BRANCH" =~ ^(main|stg|develop|master|dev)$ ]]; then
+if [[ "$CURRENT_BRANCH" =~ ^(main|stg|develop|master|dev|release/.*)$ ]]; then
     exit 0
 fi
 
@@ -25,12 +25,12 @@ fi
 LOG_COUNT=$(git reflog show "$CURRENT_BRANCH" | wc -l)
 
 if [ "$LOG_COUNT" -eq 1 ]; then
-    echo "Creating an initial empty commit..."
-
     # 空コミットを作成
     # --allow-empty : 差分がなくてもコミットを許可
     # --only        : インデックス(stage)の内容を無視し、指定したファイル(なし)のみを対象とする
     # --quiet       : 標準出力を抑制し、ブランチ切り替え時のノイズを減らす
     # --no-verify   : pre-commit等のフックをスキップし、無限ループや検証エラーを回避
     git commit --allow-empty -m "Initial empty commit for $CURRENT_BRANCH" --only --quiet --no-verify
+
+    echo "Created an initial empty commit"
 fi
